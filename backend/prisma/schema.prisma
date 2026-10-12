@@ -1,0 +1,42 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String              @id @default(uuid())
+  githubId     String              @unique @map("github_id")
+  username     String              @unique
+  name         String?
+  email        String?
+  avatarUrl    String?             @map("avatar_url")
+  accessToken  String              @map("access_token")
+  createdAt    DateTime            @default(now()) @map("created_at")
+  updatedAt    DateTime            @updatedAt @map("updated_at")
+  history      GenerationHistory[]
+
+  @@map("users")
+}
+
+model GenerationHistory {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type          String   // 'commit' | 'pr' | 'release'
+  repoName      String?  @map("repo_name")
+  inputHash     String   @map("input_hash")
+  inputSnippet  String?  @map("input_snippet") @db.Text
+  title         String
+  output        String   @db.Text
+  modelUsed     String   @map("model_used")
+  cachedInRedis Boolean  @default(false) @map("cached_in_redis")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([inputHash])
+  @@map("generation_history")
+}
