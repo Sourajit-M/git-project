@@ -21,20 +21,20 @@ export const ArchitectureView: React.FC = () => {
   const [checkingBackend, setCheckingBackend] = useState(false);
   const [backendStatus, setBackendStatus] = useState<'unknown' | 'online' | 'offline'>('unknown');
 
-  const checkSpringApi = async () => {
+  const checkApi = async () => {
     setCheckingBackend(true);
     try {
       const res = await fetch('http://localhost:8080/api/v1/health', { method: 'GET' });
       if (res.ok) {
         setBackendStatus('online');
-        showToast('Connected to Spring Boot API on :8080', 'success');
+        showToast('Connected to Node.js Backend API on :8080', 'success');
       } else {
         setBackendStatus('offline');
-        showToast('Spring Boot responded with non-200 status', 'error');
+        showToast('Backend responded with non-200 status', 'error');
       }
     } catch {
       setBackendStatus('offline');
-      showToast('Could not reach http://localhost:8080. Running in Demo Mode.', 'info');
+      showToast('Could not reach http://localhost:8080. Check if backend is running.', 'info');
     } finally {
       setCheckingBackend(false);
     }
@@ -58,17 +58,17 @@ export const ArchitectureView: React.FC = () => {
 
         <div className="flex items-center gap-3">
           <button
-            onClick={checkSpringApi}
+            onClick={checkApi}
             disabled={checkingBackend}
-            className="px-3 py-1.5 rounded-lg bg-[#21262d] hover:bg-[#30363d] text-slate-200 text-xs font-medium border border-[#30363d] flex items-center gap-1.5 transition-colors"
+            className="px-3 py-1.5 rounded-lg bg-[#21262d] hover:bg-[#30363d] text-slate-200 text-xs font-medium border border-[#30363d] flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${checkingBackend ? 'animate-spin' : ''}`} />
-            <span>Ping Spring Boot (:8080)</span>
+            <span>Ping Backend (:8080)</span>
           </button>
         </div>
       </div>
 
-      {/* Architecture Visual Diagram (Exact representation of uploaded Diagram 2) */}
+      {/* Architecture Visual Diagram */}
       <div className="p-6 rounded-2xl bg-[#0d1117] border border-[#30363d] shadow-2xl space-y-6">
         {/* Tier 1: Frontend */}
         <div className="max-w-xl mx-auto p-4 rounded-xl bg-[#161b22] border-2 border-cyan-500/40 shadow-lg text-center space-y-1.5 transition-transform hover:scale-[1.01]">
@@ -98,12 +98,12 @@ export const ArchitectureView: React.FC = () => {
           <span className="text-[11px] font-mono text-slate-500 mt-1">REST API / JSON Payloads</span>
         </div>
 
-        {/* Tier 2: Spring Boot REST API */}
+        {/* Tier 2: Node.js REST API */}
         <div className="p-5 rounded-xl bg-[#161b22] border border-[#30363d] space-y-4 shadow-xl">
           <div className="text-center space-y-1 border-b border-[#30363d] pb-3">
             <div className="flex items-center justify-center gap-2">
               <Server className="w-5 h-5 text-emerald-400" />
-              <h2 className="text-base font-bold text-slate-100">Spring Boot REST API</h2>
+              <h2 className="text-base font-bold text-slate-100">Node.js REST API (Port 8080)</h2>
               {backendStatus === 'online' && (
                 <span className="flex items-center gap-1 text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded font-mono">
                   <CheckCircle2 className="w-3 h-3" /> Online
@@ -111,7 +111,7 @@ export const ArchitectureView: React.FC = () => {
               )}
             </div>
             <p className="text-xs text-slate-400">
-              Security • Validation • Business logic
+              Express.js • Zod Validation • JWT Security
             </p>
           </div>
 
@@ -141,11 +141,11 @@ export const ArchitectureView: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-slate-200">AI service</h4>
-                  <p className="text-[11px] text-slate-400">Prompting + generation</p>
+                  <p className="text-[11px] text-slate-400">Groq (llama-3.3-70b-versatile)</p>
                 </div>
               </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                Engineers prompts for Conventional Commits, structured PR descriptions, and markdown release notes.
+                High-speed inference for Conventional Commits, structured PR descriptions, and markdown release notes.
               </p>
             </div>
 
@@ -156,8 +156,8 @@ export const ArchitectureView: React.FC = () => {
                   <Database className="w-4 h-4 text-sky-400" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-200">PostgreSQL</h4>
-                  <p className="text-[11px] text-slate-400">Users + history</p>
+                  <h4 className="text-xs font-bold text-slate-200">PostgreSQL (Docker)</h4>
+                  <p className="text-[11px] text-slate-400">Prisma ORM • Users + history</p>
                 </div>
               </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
@@ -172,12 +172,12 @@ export const ArchitectureView: React.FC = () => {
                   <Zap className="w-4 h-4 text-amber-400" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-200">Redis</h4>
-                  <p className="text-[11px] text-slate-400">Caching</p>
+                  <h4 className="text-xs font-bold text-slate-200">Redis (Docker)</h4>
+                  <p className="text-[11px] text-slate-400">ioredis • 45m Sliding TTL Cache</p>
                 </div>
               </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                In-memory caching for OAuth sessions and fast response caching for identical diff queries.
+                In-memory caching for OAuth sessions and sub-10ms response caching for identical diff queries.
               </p>
             </div>
           </div>
@@ -186,9 +186,9 @@ export const ArchitectureView: React.FC = () => {
 
       {/* API Endpoints Contract Card */}
       <div className="bg-[#161b22] border border-[#30363d] rounded-xl p-5 space-y-3">
-        <h3 className="text-sm font-semibold text-slate-200">Spring Boot REST API Contracts</h3>
+        <h3 className="text-sm font-semibold text-slate-200">Node.js REST API Contracts</h3>
         <p className="text-xs text-slate-400">
-          The frontend is pre-configured to communicate with these standard REST endpoints:
+          The frontend communicates directly with these standard REST endpoints:
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-mono">

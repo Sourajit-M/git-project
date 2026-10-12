@@ -88,7 +88,7 @@ export const Navbar: React.FC = () => {
         <div
           onClick={toggleDemoMode}
           className="flex items-center gap-2 px-2.5 py-1 rounded-full border border-[#30363d] bg-[#0d1117] text-xs cursor-pointer select-none hover:border-slate-500 transition-colors"
-          title="Toggle between Simulated Mock Data and Live Spring Boot REST API (localhost:8080)"
+          title="Toggle between Simulated Mock Data and Live Node.js REST API (localhost:8080)"
         >
           <span className="text-[11px] text-slate-400">Mode:</span>
           {isDemoMode ? (
@@ -98,7 +98,7 @@ export const Navbar: React.FC = () => {
             </div>
           ) : (
             <div className="flex items-center gap-1.5 text-cyan-400 font-medium">
-              <span>Spring API</span>
+              <span>Live API</span>
               <ToggleRight className="w-4 h-4 text-cyan-400" />
             </div>
           )}

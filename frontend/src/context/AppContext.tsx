@@ -42,7 +42,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
   const [isDemoMode, setIsDemoMode] = useState<boolean>(() => {
     const saved = localStorage.getItem('gitai_demo_mode');
-    return saved !== null ? saved === 'true' : true; // Default to demo mode for instant testing!
+    return saved !== null ? saved === 'true' : false; // Connect directly to Node.js backend by default!
   });
 
   const [user, setUser] = useState<UserProfile | null>(MOCK_USER);
@@ -69,7 +69,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsDemoMode(next);
     localStorage.setItem('gitai_demo_mode', String(next));
     showToast(
-      next ? 'Switched to Demo Mode (Mock data)' : 'Switched to Live API Mode (Spring Boot at localhost:8080)',
+      next ? 'Switched to Demo Mode (Mock data)' : 'Switched to Live API Mode (Node.js API at localhost:8080)',
       'info'
     );
   };
@@ -128,8 +128,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       showToast('Authenticated as ' + MOCK_USER.username, 'success');
       return;
     }
-    // Redirect to Spring Boot OAuth2 endpoint
-    window.location.href = 'http://localhost:8080/oauth2/authorization/github';
+    // Redirect to Node.js backend GitHub OAuth endpoint
+    window.location.href = 'http://localhost:8080/api/v1/auth/github';
   };
 
   const logout = () => {

@@ -55,7 +55,7 @@ export const HistoryView: React.FC = () => {
           <div>
             <h1 className="text-xl font-bold text-slate-100">Generation History & Cache</h1>
             <p className="text-xs text-slate-400">
-              Synchronized with Spring Boot PostgreSQL (User history) and Redis (Cache layer).
+              Synchronized with Docker PostgreSQL (User history) and Redis (Cache layer).
             </p>
           </div>
         </div>

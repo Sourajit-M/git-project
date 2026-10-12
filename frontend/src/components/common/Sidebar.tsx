@@ -100,10 +100,11 @@ export const Sidebar: React.FC = () => {
             <span>AI Architecture Stack</span>
           </div>
           <p className="text-[11px] text-slate-400 leading-relaxed">
-            Connected via Spring Boot REST API with Redis caching and PostgreSQL persistence.
+            Connected via Node.js REST API with Groq AI, Redis caching, and Docker PostgreSQL.
           </p>
           <div className="pt-1 flex flex-wrap gap-1 text-[10px] font-mono text-slate-400">
-            <span className="px-1.5 py-0.5 rounded bg-[#161b22] border border-[#30363d]">Spring Boot</span>
+            <span className="px-1.5 py-0.5 rounded bg-[#161b22] border border-[#30363d]">Node.js</span>
+            <span className="px-1.5 py-0.5 rounded bg-[#161b22] border border-[#30363d]">Groq AI</span>
             <span className="px-1.5 py-0.5 rounded bg-[#161b22] border border-[#30363d]">Redis</span>
             <span className="px-1.5 py-0.5 rounded bg-[#161b22] border border-[#30363d]">PostgreSQL</span>
           </div>

@@ -178,7 +178,7 @@ export const PrGeneratorView: React.FC = () => {
             {loading ? (
               <>
                 <RefreshCw className="w-4 h-4 animate-spin" />
-                <span>Generating Structured PR via Spring AI Service...</span>
+                <span>Generating Structured PR via Groq AI Service...</span>
               </>
             ) : (
               <>
